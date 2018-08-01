@@ -5,16 +5,20 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <player></player>
   </div>
 </template>
 
 <script>
 import MHeader from 'components/header/m-header' // 首字母大写
 import Tab from 'components/tab/tab'
+import Player from 'components/player/player'
+
 export default {
   components: {
     MHeader,
-    Tab
+    Tab,
+    Player
   }
 }
 </script>

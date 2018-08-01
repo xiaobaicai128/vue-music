@@ -20,7 +20,7 @@ export default {
       type: Array,
       default: null
     },
-    listernScroll: { // 是否左右联动
+    listernScroll: { // 实时监听scroll位置
       type: Boolean,
       default: false
     }
