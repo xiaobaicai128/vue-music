@@ -3,7 +3,7 @@
 * @Date:   2018-07-26 14:27:06
 * @E-mail: 21718534@zju.edu.cn
 * @Last Modified by:   乔勇
-* @Last Modified time: 2018-07-30 22:47:21
+* @Last Modified time: 2018-08-21 10:15:47
 */
 // 一些常量 动词
 export const SET_SINGER = 'SET_SINGER'
@@ -21,3 +21,5 @@ export const MODE = 'MODE'
 export const CURRENTINDEX = 'CURRENTINDEX'
 
 export const CURRENTSONG = 'CURRENTSONG'
+
+export const SET_DISC = 'SET_DISC'

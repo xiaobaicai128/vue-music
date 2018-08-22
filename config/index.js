@@ -21,7 +21,39 @@ module.exports = {
         pathRewrite:{
           '^/api/getDiscList':''
         }
-      }
+      },
+      '/api/getLyric': {
+        target:'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg',
+        bypass: function(req,res,proxyOptions) {
+          req.headers.referer='https://i.y.qq.com';
+          req.headers.host='i.y.qq.com';
+        },
+        pathRewrite:{
+          '^/api/getLyric':''
+        }
+      },
+      // '/api/getSongList': {
+      //   target:'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',
+      //   bypass: function(req,res,proxyOptions) {
+      //     req.headers.referer='https://y.qq.com';
+      //     req.headers.host='y.qq.com';
+      //   },
+      //   pathRewrite:{
+      //     '^/api/getSongList':''
+      //   }
+      // },
+      '/api/getSongList':{
+        target:'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',
+        bypass:function(req,res,proxyOptions){
+          req.headers.referer='https://y.qq.com/n/yqq/playsquare/4277285623.html';
+          // req.headers.host='c.y.qq.com';
+        },
+        // secure: false, //如果是https接口，需要配置这个参数
+        // changeOrigin: true, //允许跨域
+        pathRewrite:{
+          '^/api/getSongList':''
+        }
+      },
     },
 
     // Various Dev Server settings

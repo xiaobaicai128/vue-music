@@ -6,9 +6,9 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
-        <div class="play" v-show="songs.length>0" ref="playBtn">
+        <div class="play" v-show="songs.length>0" ref="playBtn" @click="playRandom">
           <i class="icon-play"></i>
-          <span class="text">全部播放</span>
+          <span class="text">随机全部播放</span>
         </div>
       </div>
       <div class="filter" ref="filter"></div>
@@ -30,10 +30,12 @@ import SongList from '../../base/song-list/song-list'
 import {preFixStyle} from '../../common/js/mdom'
 import Loading from '../../base/loading/loading'
 import {mapActions} from 'vuex'
+import {playlistMixin} from 'common/js/mixin'
 
 const RESERVED_HEIGHT = 40
 const transform = preFixStyle('transform')
 export default {
+  mixins: [playlistMixin],
   props: {
     bgImage: {
       type: String, // 实际上是图像的链接地址 所以要通过计算属性 获得完整图片
@@ -67,6 +69,11 @@ export default {
     this.listernScroll = true
   },
   methods: {
+    handlePlayList (playList) {
+      const bottom = playList.length > 0 ? '60px' : ''
+      this.$refs.list.$el.style.bottom = bottom
+      this.$refs.list.refresh()
+    },
     scroll (position) {
       this.scrollY = position.y // 滚动的y坐标
     },
@@ -79,8 +86,14 @@ export default {
         index
       })
     },
+    playRandom () {
+      this.randomPlay({
+        list: this.songs
+      })
+    },
     ...mapActions([
-      'selectPlay' // 调用action中的方法
+      'selectPlay', // 调用action中的方法
+      'randomPlay'
     ])
   },
   watch: {

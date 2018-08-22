@@ -3,7 +3,7 @@
 * @Date:   2018-07-26 14:26:49
 * @E-mail: 21718534@zju.edu.cn
 * @Last Modified by:   乔勇
-* @Last Modified time: 2018-07-31 20:38:53
+* @Last Modified time: 2018-08-21 10:11:12
 */
 // actions对提交过来的操作进行业务逻辑处理
 // 修改数据
@@ -33,6 +33,9 @@ const mutations = {
   },
   [types.CURRENTSONG] (state, song) {
     state.currentSong = song
+  },
+  [types.SET_DISC] (state, disc) {
+    state.disc = disc
   }
 }
 

@@ -3,7 +3,7 @@
 * @Date:   2018-07-26 14:26:02
 * @E-mail: 21718534@zju.edu.cn
 * @Last Modified by:   乔勇
-* @Last Modified time: 2018-07-30 22:48:36
+* @Last Modified time: 2018-08-21 10:12:27
 */
 // 从state中取得数据 渲染组件 映射到组件中
 // 可以通过state的基础数据计算出新的数据
@@ -24,3 +24,5 @@ export const currentIndex = state => state.currentIndex
 export const currentSong = (state) => {
   return state.playList[state.currentIndex] || {}
 }
+
+export const disc = state => state.disc

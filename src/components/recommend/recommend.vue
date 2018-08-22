@@ -16,7 +16,7 @@
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
           <ul>
-            <li class="item" v-for="item in discList" :key="item.id">
+            <li class="item" @click="selectItem(item)" v-for="item in discList" :key="item.id">
               <div class="icon">
                 <img width="60" height="60" v-lazy="item.imgurl"/>
               </div>
@@ -32,6 +32,7 @@
         <loading></loading>
       </div>
     </scroll>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -40,8 +41,11 @@ import {ERR_OK} from '../../Api/config.js'
 import Slider from '../../base/slider/slider.vue'
 import Scroll from '../../base/scroll/scroll.vue'
 import Loading from '../../base/loading/loading'
+import {playlistMixin} from 'common/js/mixin'
+import {mapMutations} from 'vuex'
 
 export default{
+  mixins: [playlistMixin],
   data () {
     return {
       recommends: [],
@@ -54,6 +58,17 @@ export default{
     this._getDiscList()
   },
   methods: {
+    handlePlayList (playList) {
+      const bottom = playList.length > 0 ? '60px' : ''
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
+    },
+    selectItem (item) {
+      this.$router.push({
+        path: `/recommend/${item.dissid}`
+      })
+      this.setDisc(item) // 发送数据到state
+    },
     _getRecommond () {
       getRecommend().then((res) => {
         if (res.code === ERR_OK) {
@@ -74,7 +89,10 @@ export default{
         this.$refs.scroll.refresh() // 调用组件的refresh() 方法
         this.checkLoaded = true
       }
-    }
+    },
+    ...mapMutations({
+      setDisc: 'SET_DISC'
+    })
   },
   components: {
     Slider,

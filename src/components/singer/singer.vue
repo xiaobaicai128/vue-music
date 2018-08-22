@@ -1,6 +1,6 @@
 <template>
-  <div class="singer">
-    <list :data="list" @select="selectSinger"></list>
+  <div class="singer" ref="singer">
+    <list :data="list" @select="selectSinger" ref="list"></list>
       <router-view></router-view>
   </div>
 </template>
@@ -10,9 +10,12 @@ import {ERR_OK} from '../../Api/config'
 import Singer from 'common/js/singer'
 import List from '../../base/list/list'
 import {mapMutations} from 'vuex' // vuex自带语法糖 将数据传至state
+import {playlistMixin} from 'common/js/mixin'
+
 const HOT_NAME = '热门'
 const HOT_SINGER_LEN = 10
 export default {
+  mixins: [playlistMixin],
   data () {
     return {
       list: []
@@ -22,6 +25,11 @@ export default {
     this._getSingerList()
   },
   methods: {
+    handlePlayList (playList) {
+      const bottom = playList.length > 0 ? '60px' : ''
+      this.$refs.singer.style.bottom = bottom
+      this.$refs.list.refresh() // 调用list组件内的refresh方法
+    },
     selectSinger (item) {
       this.$router.push({ // 动态路由
         path: `/singer/${item.id}`

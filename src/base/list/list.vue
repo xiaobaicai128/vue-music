@@ -89,6 +89,9 @@ export default {
     selectItem (item) {
       this.$emit('select', item) // 向外派发点击事件 创出被点击的内容 父组件监听
     },
+    refresh () {
+      this.$refs.listView.refresh()
+    },
     _scrollTo (index) {
       if (!index && index !== 0) { // 点击字母 如果没有点击到锚点元素 padding时无效
         return

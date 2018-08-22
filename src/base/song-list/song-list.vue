@@ -26,6 +26,7 @@ export default{
     },
     selectItem (item, index) {
       this.$emit('select', item, index) // 派发事件
+      console.log(item)
     }
   }
 }

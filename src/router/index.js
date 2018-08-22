@@ -6,6 +6,8 @@ import Recommend from 'components/recommend/recommend'
 import Search from 'components/search/search'
 import Singer from 'components/singer/singer'
 import SingerDetail from 'components/singer-detail/singer-detail'
+import Desc from 'components/description/desc'
+
 Vue.use(Router)
 
 export default new Router({
@@ -20,6 +22,10 @@ export default new Router({
     {
       path: '/recommend',
       component: Recommend,
+      children: [{
+        path: ':id',
+        component: Desc
+      }],
       meta: {
         keepAlive: true
       }
