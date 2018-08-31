@@ -3,10 +3,10 @@
 * @Date:   2018-07-26 14:26:49
 * @E-mail: 21718534@zju.edu.cn
 * @Last Modified by:   乔勇
-* @Last Modified time: 2018-08-21 10:11:12
+* @Last Modified time: 2018-08-30 16:05:14
 */
 // actions对提交过来的操作进行业务逻辑处理
-// 修改数据
+// 为satae 修改数据
 import * as types from './mutation-types'
 
 const mutations = {
@@ -36,6 +36,18 @@ const mutations = {
   },
   [types.SET_DISC] (state, disc) {
     state.disc = disc
+  },
+  [types.SET_TOPLIST] (state, topList) {
+    state.topList = topList
+  },
+  [types.SET_SEARCHHISTORY] (state, searchHistory) {
+    state.searchHistory = searchHistory
+  },
+  [types.SET_PLAYHISTORY] (state, history) {
+    state.playHistory = history
+  },
+  [types.SET_FAVORITE] (state, favorite) {
+    state.favorite = favorite
   }
 }
 

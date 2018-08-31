@@ -59,7 +59,7 @@
               <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
-              <i class="icon icon-not-favorite"></i>
+              <i class="icon" @click="toggleFavoriteIcon(currentSong)" :class="getFavoriteIcon(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -81,29 +81,33 @@
             <i @click.prevent.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click.stop="showPlayList">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="timeUpdate" @ended="songEnd"></audio>
+    <PlayList ref="playList"></PlayList>
+    <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="timeUpdate" @ended="songEnd"></audio>
   </div>
 </template>
 <script>
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import animations from 'create-keyframe-animation' // 使用JavaScript在浏览器中动态生成CSS关键帧动画。
 import {preFixStyle} from 'common/js/mdom'
 import ProgressBar from '../../base/progress-bar/progress-bar'
 import ProgressCircle from '../../base/progress-circle/progress-circle'
 import {playMode} from 'common/js/config'
-import {shuffle} from 'common/js/random'
+// import {shuffle} from 'common/js/random'
 import Lyric from 'lyric-parser'
 import Scroll from '../../base/scroll/scroll'
+import PlayList from 'components/playlist/playlist'
+import {playListMode} from 'common/js/mixin'
 
 const transform = preFixStyle('transform')
 const transitionDuration = preFixStyle('transitionDuration')
 
 export default {
+  mixins: [playListMode],
   data () {
     return {
       songReady: false,
@@ -127,9 +131,9 @@ export default {
     disableCls () {
       return this.songReady ? '' : 'disable'
     },
-    iconMode () {
-      return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
-    },
+    // iconMode () {
+    //   return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
+    // },
     percent () {
       return this.currentTime / this.currentSong.duration
     },
@@ -160,6 +164,7 @@ export default {
       } else {
         if (this.playList.length === 1) {
           this.loop()
+          return
         }
         let index = this.currentIndex + 1
         if (index === this.playList.length) {
@@ -178,6 +183,7 @@ export default {
       }
       if (this.playList.length === 1) {
         this.loop()
+        return
       } else {
         let index = this.currentIndex - 1
         if (index === -1) {
@@ -192,6 +198,7 @@ export default {
     },
     ready () {
       this.songReady = true
+      this.savePlayHistory(this.currentSong)
     },
     error () {
       this.songReady = true
@@ -215,18 +222,18 @@ export default {
         this.currentLyric.seek(onCurrentTime * 1000) // *1000毫秒
       }
     },
-    changeMode () {
-      const mode = (this.mode + 1) % 3
-      this.setPlayMode(mode)
-      let list = null
-      if (mode === playMode.random) {
-        list = shuffle(this.sequenceList)
-      } else {
-        list = this.sequenceList
-      }
-      this.resetCurrentSong(list)
-      this.setPlayList(list)
-    },
+    // changeMode () {
+    //   const mode = (this.mode + 1) % 3
+    //   this.setPlayMode(mode)
+    //   let list = null
+    //   if (mode === playMode.random) {
+    //     list = shuffle(this.sequenceList)
+    //   } else {
+    //     list = this.sequenceList
+    //   }
+    //   this.resetCurrentSong(list)
+    //   this.setPlayList(list)
+    // },
     resetCurrentSong (list) {
       let index = list.findIndex((item) => {
         return item.id === this.currentSong.id
@@ -312,6 +319,9 @@ export default {
     },
     getLyric () {
       this.currentSong.getLyric().then((lyric) => {
+        if (this.currentLyric !== lyric) {
+          return
+        }
         this.currentLyric = new Lyric(lyric, this.handelLyric) // 调用
         if (this.playing) {
           this.currentLyric.play()
@@ -386,6 +396,9 @@ export default {
       this.$refs.middleL.style.opacity = opacity
       this.$refs.middleL.style[transitionDuration] = `${time}ms` // 动画
     },
+    showPlayList () {
+      this.$refs.playList.show()
+    },
     _getPosAndScale () {
       const targetWidth = 40
       const paddingLeft = 40
@@ -407,17 +420,22 @@ export default {
       setCurrentIndex: 'CURRENTINDEX',
       setPlayMode: 'MODE',
       setPlayList: 'SET_PLAY_LIST'
-    })
+    }),
+    ...mapActions(['savePlayHistory'])
   },
   watch: {
     currentSong (newsong, oldsong) {
+      if (!newsong) {
+        return
+      }
       if (newsong.id === oldsong.id) {
         return
       }
       if (this.currentLyric) {
         this.currentLyric.stop()
       }
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.$refs.audio.play() // 观察当前歌曲发生变化就 播放
         this.getLyric()
       }, 1000)
@@ -436,7 +454,8 @@ export default {
   components: {
     ProgressBar,
     ProgressCircle,
-    Scroll
+    Scroll,
+    PlayList
   }
 }
 </script>

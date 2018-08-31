@@ -7,6 +7,8 @@ import Search from 'components/search/search'
 import Singer from 'components/singer/singer'
 import SingerDetail from 'components/singer-detail/singer-detail'
 import Desc from 'components/description/desc'
+import TopList from 'components/toplist/toplist'
+import UserCenter from 'components/user-center/user-center'
 
 Vue.use(Router)
 
@@ -44,6 +46,10 @@ export default new Router({
     {
       path: '/rank',
       component: Rank,
+      children: [{
+        path: ':id',
+        component: TopList
+      }],
       meta: {
         keepAlive: true
       }
@@ -51,9 +57,17 @@ export default new Router({
     {
       path: '/search',
       component: Search,
+      children: [{
+        path: ':id',
+        component: SingerDetail
+      }],
       meta: {
         keepAlive: true
       }
+    },
+    {
+      path: '/user',
+      component: UserCenter
     }
   ]
 })

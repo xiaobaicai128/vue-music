@@ -23,6 +23,18 @@ export default {
     listernScroll: { // 实时监听scroll位置
       type: Boolean,
       default: false
+    },
+    pullup: {
+      type: Boolean,
+      default: false
+    },
+    beforeScroll: { // 在scroll一开始会监听/派发一个事件
+      type: Boolean,
+      default: false
+    },
+    refreshDelay: {
+      type: Number,
+      default: 20
     }
   },
   mounted () {
@@ -47,6 +59,18 @@ export default {
           me.$emit('scroll', position)
         })
       }
+      if (this.pullup) { // 下拉刷新
+        this.scroll.on('scrollEnd', () => { // 当scroll结束时候触发事件
+          if (this.scroll.y <= this.scroll.maxScrollY + 50) {
+            this.$emit('scrollToEnd') // 发送事件
+          }
+        })
+      }
+      if (this.beforeScroll) {
+        this.scroll.on('beforeScrollStart', () => {
+          this.$emit('beforeScroll')
+        })
+      }
     },
     enable () {
       // 代理better-scroll的enable方法
@@ -69,7 +93,7 @@ export default {
     data () {
       setTimeout(() => {
         this.refresh()
-      }, 200)
+      }, this.refreshDelay)
     }
   }
 }

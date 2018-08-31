@@ -54,6 +54,15 @@ module.exports = {
           '^/api/getSongList':''
         }
       },
+      '/api/getSearch': {
+        target: 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',
+        bypass: function(req, res, proxyOptions) {
+          req.headers.referer = 'https://y.qq.com/m/index.html'
+        },
+        pathRewrite: {
+          '^/api/getSearch': ''
+        }
+      }
     },
 
     // Various Dev Server settings

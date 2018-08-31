@@ -3,7 +3,7 @@
 * @Date:   2018-08-19 21:56:16
 * @E-mail: 21718534@zju.edu.cn
 * @Last Modified by:   乔勇
-* @Last Modified time: 2018-08-20 10:40:01
+* @Last Modified time: 2018-08-26 15:00:46
 */
 // 洗牌函数  打乱数组
 
@@ -19,4 +19,16 @@ export function shuffle (arr) {
     _arr[j] = t
   }
   return _arr
+}
+// 节流函数
+export function deBounce (func, delay) {
+  let timer
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
 }
