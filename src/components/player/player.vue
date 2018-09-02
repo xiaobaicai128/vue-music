@@ -319,7 +319,7 @@ export default {
     },
     getLyric () {
       this.currentSong.getLyric().then((lyric) => {
-        if (this.currentLyric !== lyric) {
+        if (this.currentSong.lyric !== lyric) {
           return
         }
         this.currentLyric = new Lyric(lyric, this.handelLyric) // 调用
@@ -425,7 +425,7 @@ export default {
   },
   watch: {
     currentSong (newsong, oldsong) {
-      if (!newsong) {
+      if (!newsong.id) {
         return
       }
       if (newsong.id === oldsong.id) {

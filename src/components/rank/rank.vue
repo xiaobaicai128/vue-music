@@ -32,10 +32,8 @@ export default {
   mixins: [
     playlistMixin
   ],
-  created () {
-    setTimeout(() => {
-      this._getTopList()
-    }, 5)
+  created () {   
+    this._getTopList()
   },
   data () {
     return {
@@ -44,7 +42,7 @@ export default {
   },
   methods: {
     handlePlayList (playlist) {
-      const bottom = playlist.length ? '60px' : ''
+      const bottom = playlist.length > 0 ? '60px' : ''
       this.$refs.rank.style.bottom = bottom
       this.$refs.topList.refresh()
     },

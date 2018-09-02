@@ -3,7 +3,7 @@
 * @Date:   2018-07-27 20:37:24
 * @E-mail: 21718534@zju.edu.cn
 * @Last Modified by:   乔勇
-* @Last Modified time: 2018-08-30 19:44:41
+* @Last Modified time: 2018-08-31 21:40:56
 */
 // 创建类
 
@@ -68,8 +68,8 @@ export function createSongs (musicData) {
     duration: musicData.interval, // 播放时长
     image: 'https://y.gtimg.cn/music/photo_new/T001R150x150M000' + musicData.singer[0].mid + '.jpg?max_age=2592000',
     imageurl: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000' + musicData.albummid + '.jpg?max_age=2592000',
-    // url: `http://dl.stream.qqmusic.qq.com/C400${musicData.songmid}.m4a?guid=6318207668&vkey=88B48E9FDA80B4256DCB50D6F92DF92BA6C655C08B0A914477099BCA834E6521618F1734304C795ABEA77CFBCFF34AF20AAB356A7E069FCB&uin=0&fromtag=38`
-    url: `http://dl.stream.qqmusic.qq.com/C400${musicData.songmid}.m4a?guid=6318207668&vkey=99645EE65B4DAC02E42A7AD3383A8BA39845B9A252DCD878B6FFEEB15E4655149F4E0E9D877841593582E149155C218545366FCB106D22AB&uin=7134&fromtag=38`
+    url: `http://dl.stream.qqmusic.qq.com/C400${musicData.songmid}.m4a?guid=6318207668&vkey=7F06E8EEC445CEE42DB564EB04E2D0FD7755DCABA7242530052859C8A5350511A8AA3B3C1DA0D933170E8DCC5583950B21FDDBA5BFD9AD13&uin=0&fromtag=38`
+    // url: `http://dl.stream.qqmusic.qq.com/C400${musicData.songmid}.m4a?guid=6318207668&vkey=99645EE65B4DAC02E42A7AD3383A8BA39845B9A252DCD878B6FFEEB15E4655149F4E0E9D877841593582E149155C218545366FCB106D22AB&uin=7134&fromtag=38`
   })
 }
 // 遍历数组 找出数组中的对象的name
